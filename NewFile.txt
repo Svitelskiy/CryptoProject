@@ -1,0 +1,2 @@
+{'time': '2022-01-18 17:00', 'full_ticker_name': 'polkadot', 'coin_title': 'DOT', 'coin_amount': '20', 'price': '210', 'total_balance': 4200}
+{'time': '2022-01-18 17:00', 'full_ticker_name': 'sollana', 'coin_title': 'SOL', 'coin_amount': '5', 'price': '250', 'total_balance': 1250}
