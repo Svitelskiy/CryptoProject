@@ -29,5 +29,6 @@ class FindPrice:
         self.browser = browser
 
     def find_price(self):
-        price_text = self.browser.find_element(*PriceLocators.price_value).text
-        print(f"coin price is: {price_text}")
+        coin_price = self.browser.find_element(*PriceLocators.price_value).text
+        print(f"coin price is: {coin_price}")
+        return coin_price
