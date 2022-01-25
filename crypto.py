@@ -1,4 +1,3 @@
-import json
 import os
 from datetime import datetime
 from selenium import webdriver
@@ -11,7 +10,7 @@ file = "NewFile.txt"
 
 while True:
     print("Hello user! you can select one of these options: 1 - Add transaction,"
-          " 2 - Get total balance, 3 - Sell coins, 4 - Average, 5 - ")
+          " 2 - Get total balance, 3 - Sell coins, 4 - Average, 5 - Get earnings percent")
 
     options = int(input("choose a transaction: "))
 
@@ -113,6 +112,7 @@ while True:
         my_file.close()
 
     elif options == 5:
+        ticker_name_input = input("text ticker name: ").upper()
         full_name_ticker_input = input("text full name ticker: ")
         driver = webdriver.Chrome()
         driver.maximize_window()
@@ -121,4 +121,15 @@ while True:
         driver.close()
         update_coin_element = coin_price.replace("$", "")
         # change dollar element to nothing
-        print(update_coin_element)
+
+        my_file = open("NewFile.txt", "r")
+        readline = my_file.readlines()
+        dictionary = convert_string_to_dict_from_file(readline)
+
+        earnings = float(dictionary[ticker_name_input]["coin_amount"]) * float(update_coin_element)
+        total_earning_balance = float(earnings) - float(dictionary[ticker_name_input]["total_balance"])
+        percent = float(total_earning_balance) / float(100)
+
+        my_file = open("NewFile.txt", "a")
+        my_file.write(f"{current_datatime.strftime('%Y-%m-%d %H:%M')} {ticker_name_input} gave: {percent} %\n")
+        my_file.close()
