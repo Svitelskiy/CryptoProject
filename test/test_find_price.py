@@ -1,12 +1,12 @@
 from navigate_directory.find_price import EnterValid
-from navigate_directory.find_price import FindPrice
 from navigate_directory.find_price import HomePage
+from navigate_directory.find_price import FindPrice
 
 
 def test_search(coin, browser):
+
     HomePage(browser).navigate_to_search()
 
-    EnterValid(browser).enter_valid_to_search(coin["coin_ticker"])
+    EnterValid(browser).enter_valid_to_search(coin)
 
-    price = FindPrice(browser).find_price()
-    print(price.text)
+    return FindPrice(browser).find_price()
