@@ -18,4 +18,4 @@ def browser():
 
 @pytest.fixture(scope="function")
 def coin():
-    return {"coin_ticker": input("text coin ticker: ")}
+    return {"coin_ticker": input("text full name ticker: ")}
