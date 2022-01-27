@@ -57,7 +57,8 @@ while True:
 
         readlines = my_file.readlines()
         dict_with_coins = convert_string_to_dict_from_file(readlines)
-        if dict_with_coins[str(coin_title_for_sell)]["coin_amount"] <= int(coin_amount_for_sell):
+
+        if int(dict_with_coins[str(coin_title_for_sell)]["coin_amount"]) < int(coin_amount_for_sell):
 
             print("Dear user, you have a mistake in amount!")
 
@@ -68,19 +69,36 @@ while True:
                 int(dict_with_coins[str(coin_title_for_sell)]["coin_amount"]) - int(coin_amount_for_sell)
             balance_coin = int(coin_price_for_sell) * int(coin_amount_for_sell)
             balance_after_sell = int(dict_with_coins[str(coin_title_for_sell)]["total_balance"]) - int(balance_coin)
-            average_price = float(balance_after_sell) / float(coin_amount_after_sell)
 
-            sell_dictionary = \
-                {
-                    f"{coin_title_for_sell}": {"time": current_datatime.strftime("%Y-%m-%d %H:%M"),
-                                               "full_ticker_name": full_ticker_name_for_sell,
-                                               "coin_amount": coin_amount_after_sell,
-                                               "price": average_price,
-                                               "total_balance": balance_after_sell}
-                }
+            if coin_amount_after_sell == 0:
+                balance_for_profit = str(balance_after_sell).replace("-", "")
+                print(f"Your profit is {balance_for_profit}")
+                my_file = open("NewFile.txt", "a")
+                main_dictionary = \
+                    {
+                        f"{coin_title_for_sell}": {"time": current_datatime.strftime("%Y-%m-%d %H:%M"),
+                                                   "full_ticker_name": full_ticker_name_for_sell,
+                                                   "coin_amount": 0,
+                                                   "price": 0,
+                                                   "total_balance": balance_for_profit}
+                    }
 
-            next_file.write(f"{sell_dictionary}\n")
-            next_file.close()
+                my_file.write(f"{main_dictionary}\n")
+                my_file.close()
+
+            else:
+                average_price = int(balance_after_sell) / int(coin_amount_after_sell)
+                sell_dictionary = \
+                    {
+                        f"{coin_title_for_sell}": {"time": current_datatime.strftime("%Y-%m-%d %H:%M"),
+                                                   "full_ticker_name": full_ticker_name_for_sell,
+                                                   "coin_amount": coin_amount_after_sell,
+                                                   "price": average_price,
+                                                   "total_balance": balance_after_sell}
+                    }
+
+                next_file.write(f"{sell_dictionary}\n")
+                next_file.close()
 
     elif options == 4:
         coin_title = input("text coin ticker: ").upper()
@@ -117,12 +135,16 @@ while True:
         driver = webdriver.Chrome()
         driver.maximize_window()
         driver.get("https://coinmarketcap.com/")
+
         coin_price = test_search(full_name_ticker_input, driver)
+
         driver.close()
+
         update_coin_element = coin_price.replace("$", "")
         # change dollar element to nothing
 
         my_file = open("NewFile.txt", "r")
+
         readline = my_file.readlines()
         dictionary = convert_string_to_dict_from_file(readline)
 
@@ -130,6 +152,5 @@ while True:
         total_earning_balance = float(earnings) - float(dictionary[ticker_name_input]["total_balance"])
         percent = float(total_earning_balance) / float(100)
 
-        my_file = open("NewFile.txt", "a")
-        my_file.write(f"{current_datatime.strftime('%Y-%m-%d %H:%M')} {ticker_name_input} gave: {percent} %\n")
+        print(f"data time: {current_datatime.strftime('%Y-%m-%d %H:%M')} {ticker_name_input} gave: {percent} %\n")
         my_file.close()
