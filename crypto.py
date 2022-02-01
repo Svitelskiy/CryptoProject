@@ -152,5 +152,5 @@ while True:
         total_earning_balance = float(earnings) - float(dictionary[ticker_name_input]["total_balance"])
         percent = float(total_earning_balance) / float(100)
 
-        print(f"data time: {current_datatime.strftime('%Y-%m-%d %H:%M')} {ticker_name_input} gave: {percent} %\n")
+        print(f"data time: {current_datatime.strftime('%Y-%m-%d %H:%M')} {ticker_name_input} gave: {percent} %")
         my_file.close()
