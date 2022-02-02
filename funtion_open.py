@@ -1,3 +1,3 @@
-file = open("111", "r", encoding="utf-8")
-print(file.read())
-file.close()
+create_new_file = open("Percent.txt", "x", encoding="utf-8")
+print(create_new_file.read())
+create_new_file.close()
