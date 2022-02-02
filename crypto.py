@@ -38,8 +38,8 @@ while True:
     elif options == 2:
         coin_title = input("text coin ticker: ").upper()
         my_file_1 = open("NewFile.txt", "r")
-        readline = my_file_1.readlines()
-        dict_with_second_options = convert_string_to_dict_from_file(readline)
+        read_line = my_file_1.readlines()
+        dict_with_second_options = convert_string_to_dict_from_file(read_line)
         my_file_1.close()
         balance_top = 0
         total_balance = balance_top + int(dict_with_second_options[str(coin_title)]["total_balance"])
@@ -55,8 +55,8 @@ while True:
 
         my_file = open("NewFile.txt", "r")
 
-        readlines = my_file.readlines()
-        dict_with_coins = convert_string_to_dict_from_file(readlines)
+        read_lines = my_file.readlines()
+        dict_with_coins = convert_string_to_dict_from_file(read_lines)
 
         if int(dict_with_coins[str(coin_title_for_sell)]["coin_amount"]) < int(coin_amount_for_sell):
 
@@ -107,8 +107,8 @@ while True:
         average_price = input("price of the token: ")
 
         my_file = open("NewFile.txt", "r")
-        readline = my_file.readlines()
-        dict_with_coins = convert_string_to_dict_from_file(readline)
+        read_line = my_file.readlines()
+        dict_with_coins = convert_string_to_dict_from_file(read_line)
 
         my_file = open("NewFile.txt", "a")
         average_amount = int(coin_amount) + int(dict_with_coins[str(coin_title)]["coin_amount"])
@@ -145,12 +145,17 @@ while True:
 
         my_file = open("NewFile.txt", "r")
 
-        readline = my_file.readlines()
-        dictionary = convert_string_to_dict_from_file(readline)
+        read_line = my_file.readlines()
+        dictionary = convert_string_to_dict_from_file(read_line)
+
+        my_file.close()
+
+        file_for_percent = open("Percent.txt", "a")
 
         earnings = float(dictionary[ticker_name_input]["coin_amount"]) * float(update_coin_element)
         total_earning_balance = float(earnings) - float(dictionary[ticker_name_input]["total_balance"])
         percent = float(total_earning_balance) / float(100)
 
-        print(f"data time: {current_datatime.strftime('%Y-%m-%d %H:%M')} {ticker_name_input} gave: {percent} %")
-        my_file.close()
+        file_for_percent.write(f"data time: {current_datatime.strftime('%Y-%m-%d %H:%M')} "
+                               f"{ticker_name_input} gave: {percent} %")
+        file_for_percent.close()
