@@ -130,32 +130,23 @@ while True:
         my_file.close()
 
     elif options == 5:
-        ticker_name_input = input("text ticker name: ").upper()
-        full_name_ticker_input = input("text full name ticker: ")
         driver = webdriver.Chrome()
         driver.maximize_window()
         driver.get("https://coinmarketcap.com/")
-
-        coin_price = test_search(full_name_ticker_input, driver)
-
-        driver.close()
-
-        update_coin_element = coin_price.replace("$", "")
-        # change dollar element to nothing
-
         my_file = open("NewFile.txt", "r")
-
         read_line = my_file.readlines()
         dictionary = convert_string_to_dict_from_file(read_line)
-
+        for items in dictionary:
+            name_ticker = items
+            full_name_ticker = dictionary[items]["full_ticker_name"]
+            coin_price = test_search(full_name_ticker, driver)
+            update_coin_element = coin_price.replace("$", "")
+            # change dollar element to nothing
+            file_for_percent = open("Percent.txt", "a")
+            earnings = float(dictionary[items]["coin_amount"]) * float(update_coin_element)
+            total_earning_balance = float(earnings) - float(dictionary[items]["total_balance"])
+            percent = float(total_earning_balance) / float(100)
+            file_for_percent.write(f"{items}: {round(percent, 2)} % \n")
+            file_for_percent.close()
+        driver.close()
         my_file.close()
-
-        file_for_percent = open("Percent.txt", "a")
-
-        earnings = float(dictionary[ticker_name_input]["coin_amount"]) * float(update_coin_element)
-        total_earning_balance = float(earnings) - float(dictionary[ticker_name_input]["total_balance"])
-        percent = float(total_earning_balance) / float(100)
-
-        file_for_percent.write(f"data time: {current_datatime.strftime('%Y-%m-%d %H:%M')} "
-                               f"{ticker_name_input} gave: {percent} %")
-        file_for_percent.close()
